@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  passwordHash String?
+  status       String   @default("active")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model AdCreative {
+  id         String   @id @default(cuid())
+  storageUrl String
+  clickUrl   String
+  altText    String?
+  width      Int?
+  height     Int?
+  type       String
+  createdAt  DateTime @default(now())
+}
+
+model AdSlot {
+  id              String  @id @default(cuid())
+  pageKey         String
+  positionKey     String
+  rotate          Boolean @default(true)
+  intervalSeconds Int     @default(5)
+  isActive        Boolean @default(true)
+}
+
+model RecipeEvent {
+  id         String   @id @default(cuid())
+  userId     String?
+  recipeId   String?
+  eventType  String
+  occurredAt DateTime @default(now())
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+}

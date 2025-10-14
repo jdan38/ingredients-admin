@@ -1,0 +1,15 @@
+# dependencies
+node_modules/
+# next build
+.next/
+out/
+# env & local
+.env
+.env*.local
+*.log
+.DS_Store
+# tooling
+coverage/
+dist/
+.vscode/
+.idea/
