@@ -1,8 +1,50 @@
-import { prisma } from '@/lib/prisma';
-import AdPreview from '@/components/ads/AdPreview';
-import CreativeUploader from '@/components/ads/CreativeUploader';
-export default async function Ads(){
-const slots = await prisma.adSlot.findMany();
-return (<div className="space-y-4"><h1 className="text-2xl font-semibold">Ads</h1><CreativeUploader/>
-<div className="grid md:grid-cols-2 gap-3">{slots.map(s=>(<div key={s.id} className="bg-white p-4 rounded-xl shadow"><div className="mb-2 font-medium">{s.pageKey}:{s.positionKey}</div><AdPreview slotId={s.id}/></div>))}</div></div>);
+'use client';
+
+import { useEffect, useState } from 'react';
+
+type ServedAd = {
+  id: string;
+  name: string;
+  imageUrl: string;
+  clickUrl: string;
+  placement: string;
+  slotId?: string | null;
+};
+
+export default function AdPreview({ slotId, placement }: { slotId?: string; placement?: string }) {
+  const [ad, setAd] = useState<ServedAd | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const res = await fetch('/api/ads/serve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slotId, placement }),
+      });
+      const data = await res.json();
+      setAd(data?.ad ?? null);
+    })();
+  }, [slotId, placement]);
+
+  if (!ad) {
+    return (
+      <div className="w-full aspect-video grid place-items-center rounded-lg border border-dashed">
+        <span className="text-sm text-gray-500">No ad available</span>
+      </div>
+    );
+  }
+
+  return (
+    <a
+      href={ad.clickUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block rounded-lg overflow-hidden border"
+      aria-label={ad.name}
+      title={ad.name}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={ad.imageUrl} alt={ad.name} className="w-full h-auto" />
+    </a>
+  );
 }

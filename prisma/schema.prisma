@@ -10,44 +10,50 @@ datasource db {
 model User {
   id           String   @id @default(cuid())
   email        String   @unique
-  name         String?
-  passwordHash String?
-  status       String   @default("active")
+  passwordHash String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
 
-model AdCreative {
-  id         String   @id @default(cuid())
-  storageUrl String
-  clickUrl   String
-  altText    String?
-  width      Int?
-  height     Int?
-  type       String
-  createdAt  DateTime @default(now())
-}
-
 model AdSlot {
-  id              String  @id @default(cuid())
-  pageKey         String
-  positionKey     String
-  rotate          Boolean @default(true)
-  intervalSeconds Int     @default(5)
-  isActive        Boolean @default(true)
+  id           String         @id @default(cuid())
+  pageKey      String
+  positionKey  String
+  active       Boolean        @default(true)
+  createdAt    DateTime       @default(now())
+  description  String?
+  updatedAt    DateTime       @updatedAt
+  ads          Ad[]
+  AdImpression AdImpression[]
+
+  @@unique([pageKey, positionKey])
 }
 
-model RecipeEvent {
-  id         String   @id @default(cuid())
-  userId     String?
-  recipeId   String?
-  eventType  String
-  occurredAt DateTime @default(now())
+model Ad {
+  id               String         @id @default(cuid())
+  name             String
+  imageUrl         String
+  clickUrl         String
+  placement        String
+  weight           Int            @default(1)
+  active           Boolean        @default(true)
+  startsAt         DateTime?
+  endsAt           DateTime?
+  slotId           String?
+  impressionsCount Int            @default(0)
+  clicksCount      Int            @default(0)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  slot             AdSlot?        @relation(fields: [slotId], references: [id])
+  impressions      AdImpression[]
 }
 
-model PasswordResetToken {
+model AdImpression {
   id        String   @id @default(cuid())
-  userId    String
-  token     String   @unique
-  expiresAt DateTime
+  createdAt DateTime @default(now())
+  adId      String
+  slotId    String?
+  placement String
+  ad        Ad       @relation(fields: [adId], references: [id], onDelete: Cascade)
+  AdSlot    AdSlot?  @relation(fields: [slotId], references: [id])
 }
