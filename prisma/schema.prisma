@@ -8,12 +8,22 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String
+
+  // NEW profile/admin fields (all optional so we can migrate safely)
+  firstName     String?
+  lastName      String?
+  phoneNumber   String?
+  accessLevel   String?   // e.g., "admin" | "editor" | "viewer"
+  department    String?
+  idNumber      String?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
+
 
 model AdSlot {
   id           String         @id @default(cuid())

@@ -1,1 +1,48 @@
+/* app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --bg-grad-from: 255 255 255;          /* white */
+  --bg-grad-to:   243 246 255;          /* very light indigo */
+}
+
+html, body {
+  @apply h-full;
+}
+
+body {
+  /* subtle angled gradient like Paddle hero pages */
+  background: linear-gradient(
+      180deg,
+      rgb(var(--bg-grad-from)) 0%,
+      rgb(var(--bg-grad-to)) 100%
+  );
+  @apply text-text-primary;
+}
+
+/* Reusable tokens */
+.container-page {
+  @apply max-w-7xl mx-auto px-6 md:px-10;
+}
+.card {
+  @apply bg-surface-card rounded-2xl shadow-card border border-surface-border;
+}
+.card-muted {
+  @apply bg-surface-muted rounded-2xl border border-surface-border;
+}
+.btn {
+  @apply inline-flex items-center gap-2 rounded-pill px-4 py-2 text-sm font-medium transition
+         bg-brand-600 text-white hover:bg-brand-700 active:scale-[.99];
+}
+.btn-ghost {
+  @apply inline-flex items-center gap-2 rounded-pill px-4 py-2 text-sm font-medium transition
+         bg-transparent text-text-secondary hover:bg-surface-muted border border-surface-border;
+}
+.input {
+  @apply h-10 rounded-pill border border-surface-border bg-white px-4 text-sm outline-none
+         focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500;
+}
+
 @tailwind base;@tailwind components;@tailwind utilities;

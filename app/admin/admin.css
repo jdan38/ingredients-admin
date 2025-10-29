@@ -1,0 +1,47 @@
+/* app/admin/admin.css */
+/* === Admin Dashboard Theme === */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-[#121212] text-white antialiased;
+}
+
+/* Sidebar + Header colors */
+.admin-sidebar,
+.admin-header {
+  @apply bg-[#242222] text-white border-neutral-800;
+}
+
+/* Nav link styling */
+.admin-nav a {
+  @apply block rounded-lg px-3 py-2 text-sm text-neutral-300 transition-colors;
+}
+.admin-nav a:hover {
+  @apply bg-neutral-700 text-white;
+}
+.admin-nav a.active {
+  @apply bg-neutral-700 text-white;
+}
+
+/* Search box */
+.admin-search input {
+  @apply w-64 rounded-lg border border-neutral-700 bg-[#1e1c1c] px-3 py-2 text-sm text-white placeholder-neutral-400 focus:ring-2 focus:ring-neutral-500 outline-none;
+}
+
+/* Utility tokens */
+.card {
+  @apply rounded-xl bg-[#1e1c1c] border border-neutral-800 shadow-md;
+}
+.btn {
+  @apply rounded-lg bg-neutral-700 hover:bg-neutral-600 text-white px-4 py-2 text-sm font-medium;
+}
+
+body { @apply bg-[#111] text-white; }
+
+/* app/admin/admin.css */
+:root {
+  --admin-header: 56px; /* keep in sync with your header’s actual height */
+}
